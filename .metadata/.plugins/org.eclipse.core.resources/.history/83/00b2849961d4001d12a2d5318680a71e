@@ -1,0 +1,5 @@
+package com.micro.spring.Controller;
+
+public interface UserControllerInt {
+
+}

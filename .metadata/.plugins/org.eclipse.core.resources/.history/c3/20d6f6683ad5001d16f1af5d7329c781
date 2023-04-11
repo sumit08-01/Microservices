@@ -1,0 +1,10 @@
+package com.micro.spring.Exceptions;
+
+import java.time.LocalDate;
+
+public class ErrorDetails {
+
+	private LocalDate timeStamp;
+	private String message;
+	private String details;
+}

@@ -1,0 +1,39 @@
+package com.micro.spring.user;
+
+import java.time.LocalDate;
+
+import lombok.Getter;
+import lombok.Setter;
+
+
+public class User {
+
+	@Getter
+	@Setter
+	private Integer id;
+	@Getter
+	@Setter
+	private String name;
+	@Getter
+	@Setter
+	private LocalDate birthDate;
+	
+
+	public User(Integer id, String name, LocalDate birthDate) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.birthDate = birthDate;
+	}
+
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", birthDate=" + birthDate + "]";
+	}
+	
+	
+	
+	
+	
+}

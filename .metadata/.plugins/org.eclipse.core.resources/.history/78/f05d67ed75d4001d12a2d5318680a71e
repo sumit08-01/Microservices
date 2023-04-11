@@ -1,0 +1,27 @@
+package com.micro.spring.dao;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Component;
+
+import com.micro.spring.user.User;
+
+@Component
+public class UserDaoService {
+
+	private static List<User> users = new ArrayList<>();
+	
+	static {
+		users.add(new User(Integer.valueOf(1), "sumit", LocalDate.now().minusYears(28)));
+		users.add(new User(Integer.valueOf(2), "sourabh", LocalDate.now().minusYears(25)));
+		users.add(new User(Integer.valueOf(3), "Yogi", LocalDate.now().minusYears(26)));
+	}
+	
+	public List<User> findAll() {
+		return users;
+		
+	}
+	
+}

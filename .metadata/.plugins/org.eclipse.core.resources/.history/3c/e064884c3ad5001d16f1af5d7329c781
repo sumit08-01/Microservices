@@ -1,0 +1,5 @@
+package com.micro.spring.Exceptions;
+
+public class ErrorDetails {
+
+}

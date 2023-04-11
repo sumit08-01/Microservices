@@ -1,0 +1,14 @@
+package com.micro.spring.Controller;
+
+import java.util.List;
+
+import com.micro.spring.user.User;
+
+public interface UserControllerInt {
+
+	public List<User> retrieveAllUsers();
+	
+	public User findById(Integer id);
+	
+	public User createUser();
+}

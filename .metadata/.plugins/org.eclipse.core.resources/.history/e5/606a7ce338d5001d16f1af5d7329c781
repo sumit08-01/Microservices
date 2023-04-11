@@ -1,0 +1,67 @@
+package com.micro.spring.Controller;
+
+import java.net.URI;
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.micro.spring.dao.UserDaoService;
+import com.micro.spring.user.User;
+
+@RestController
+public class UserController implements UserControllerInt{
+
+	private UserDaoService daoService;
+	
+	public UserController(UserDaoService daoService) {
+		this.daoService=daoService;
+	}
+
+	@Override
+	@GetMapping("/user")
+	public List<User> retrieveAllUsers() {
+		System.out.println(daoService.findAll());
+		return daoService.findAll();
+		
+	}
+
+	@Override
+	@GetMapping("/user/{id}")
+	public User findById(@PathVariable Integer id) {
+		System.out.println(daoService.findOneById(id));
+		if(id == null) {
+			throw new UserNotFoundException("id" + id);
+		}
+		return daoService.findOneById(id);
+	}
+
+	
+//	This is a way
+//	@Override
+//	@PostMapping("/userAdd")
+//	public boolean createUser(@RequestBody User user) {
+//		System.out.println(user.toString());
+//		return daoService.userCreated(user);
+//	}
+	
+// Another way mean sending status code with the help of response entity
+	@Override
+	@PostMapping("/userAdd")
+	public ResponseEntity<User> createUser(@RequestBody User user) {
+		daoService.userCreated(user);
+		System.out.println(user.toString());
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri(); // sending the current path url
+		return ResponseEntity.created(location).build();
+	}
+
+
+	
+	
+
+}

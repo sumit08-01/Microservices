@@ -1,0 +1,24 @@
+package com.micro.spring.helloworld;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class HelloWorldController {
+
+	@GetMapping("hello-world")
+	private String helloWorld() {
+		return "Hello Sumit";
+	}
+	
+	@GetMapping("hello-world-bean")
+	private HelloworldBean helloWorldBean() {
+		return new HelloworldBean("Hello Sumit Returning a bean");
+	}
+	
+	@GetMapping("hello-world-bean/path-variable/{name}")
+	private HelloworldBean helloWorldBeanPathVariable(@PathVariable String name) {
+		return new HelloworldBean(String.format("Hello Sumit Returning a bean with path variable %s", name));
+	}
+}

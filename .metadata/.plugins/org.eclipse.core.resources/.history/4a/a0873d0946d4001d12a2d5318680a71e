@@ -1,0 +1,26 @@
+package com.micro.spring.user;
+
+import java.time.LocalDate;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@NoArgsConstructor
+@AllArgsConstructor
+public class User {
+
+	@Getter
+	@Setter
+	private Integer id;
+	@Getter
+	@Setter
+	private String name;
+	@Getter
+	@Setter
+	private LocalDate birthDate;
+	
+	
+	
+}
