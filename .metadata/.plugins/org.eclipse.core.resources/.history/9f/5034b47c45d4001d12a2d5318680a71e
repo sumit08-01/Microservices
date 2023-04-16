@@ -1,5 +1,0 @@
-package com.micro.spring.dao;
-
-public class UserDaoService {
-
-}

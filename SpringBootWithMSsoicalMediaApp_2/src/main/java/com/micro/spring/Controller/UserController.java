@@ -2,7 +2,9 @@ package com.micro.spring.Controller;
 
 import java.net.URI;
 import java.util.List;
-
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.micro.spring.Exceptions.UserNotFoundException;
 import com.micro.spring.dao.UserDaoService;
 import com.micro.spring.user.User;
+
+import jakarta.validation.Valid;
 
 @RestController
 public class UserController implements UserControllerInt{
@@ -33,15 +37,30 @@ public class UserController implements UserControllerInt{
 		
 	}
 
+//	@Override
+//	@GetMapping("/user/{id}")
+//	public User findById(@PathVariable Integer id) {
+//		System.out.println(daoService.findOneById(id));
+//		User user = daoService.findOneById(id);
+//		if( user == null) {
+//			throw new UserNotFoundException("id : " + id);
+//		}
+//		return user;
+//	}
+	
+	
+//Implementing Hateous
 	@Override
 	@GetMapping("/user/{id}")
-	public User findById(@PathVariable Integer id) {
-		System.out.println(daoService.findOneById(id));
+	public EntityModel<User> findById(@PathVariable Integer id) {
 		User user = daoService.findOneById(id);
 		if( user == null) {
 			throw new UserNotFoundException("id : " + id);
 		}
-		return user;
+		EntityModel<User> entity = EntityModel.of(user);
+		WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).retrieveAllUsers());
+		entity.add(link.withRel("all-users"));
+		return entity;
 	}
 
 	
@@ -57,7 +76,7 @@ public class UserController implements UserControllerInt{
 // Another way mean sending status code with the help of response entity
 	@Override
 	@PostMapping("/userAdd")
-	public ResponseEntity<User> createUser(@RequestBody User user) {
+	public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
 		daoService.userCreated(user);
 		System.out.println(user.toString());
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri(); // sending the current path url
