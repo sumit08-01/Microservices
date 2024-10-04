@@ -1,0 +1,18 @@
+#This application Name : eureka-server
+spring:
+  application:
+    name: eureka-server
+
+
+ #It is recommended to use this port address
+server:
+  port: 8761
+
+#I don't want to, eureka service register itself to the eureka server and won't fetch
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+

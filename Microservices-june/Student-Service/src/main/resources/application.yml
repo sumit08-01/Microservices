@@ -1,0 +1,70 @@
+spring:
+  application:
+    name: student-service
+  cloud:
+    compatibility-verifier:
+      enabled: false
+  zipkin:
+    base-url: http://localhost:9411
+
+  #DataBase Configuration
+  datasource:
+    url: jdbc:mysql://localhost:3306/microservice
+    password: admin
+    username: root
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+#port Number
+server:
+  port: 8081
+
+##Address-Service Url with the help of WebClinet
+#address:
+#  service:
+#    url: http://localhost:8082/api/address
+
+#Address-Service Url with the help of Open-feign-clinet
+address:
+  service:
+    url: http://localhost:8082
+
+
+#Eureka-Server-Port--> 8761 where eureks server is running
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+#Resilience4j poperties
+resilience4j:
+  circuitbreaker:
+    instances:
+      addressService:
+        sliding-window-size: 10 # Number of calls in the sliding window to calculate the failure rate
+        failure-rate-threshold: 50 # Percentage of failures in the sliding window that will trip the circuit breaker
+        wait-duration-in-open-state: 30000 # Time in milliseconds to wait before transitioning from open to half-open state
+        automatic-transition-from-open-to-half-open-enabled: true # Automatically transition to half-open state after wait duration
+        permitted-number-of-calls-in-half-open-state: 5 # Number of permitted calls in half-open state before fully closing the circuit
+        allow-health-indicator-to-fail: true # Allow health indicator to fail if the circuit breaker is open
+        register-health-indicator: true # Register the health indicator for the circuit breaker
+#Actuator properties to check the state of the application
+management:
+  health:
+    circuitbreakers:
+      enabled: true # Enable health indicators for circuit breakers
+  endpoints:
+    web:
+      exposure:
+        include: health # Include health endpoint in web exposure
+  endpoint:
+    health:
+      show-details: always # Show detailed health information in the response
+  tracing:
+    sampling:
+      probability: 1.0
+#In the actuator show
+# closed - UP(in actuator)
+# open - DOWN(in actuator)
+# half-open - UNKNOWN(in actuator)

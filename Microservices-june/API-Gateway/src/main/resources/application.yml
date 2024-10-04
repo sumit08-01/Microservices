@@ -1,0 +1,35 @@
+
+#application name
+spring:
+  application:
+    name: api-gateway
+#For the api gate way properties
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+  zipkin:
+    base-url: http://localhost:9411
+#For sleuth
+  sleuth:
+    reactor:
+      instrumentation-type: decorate-on-each
+
+
+#server port
+server:
+  port: 9090
+
+#Eureka Clinet properties
+client:
+  service-url:
+    defaultZone: http://localhost:8761/eureka
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+

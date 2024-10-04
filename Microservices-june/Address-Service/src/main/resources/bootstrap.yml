@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: address-service
+  zipkin:
+    base-url: http://localhost:9411
+
+  #DataBase Configuration
+  datasource:
+    url: jdbc:mysql://localhost:3306/microservice
+    password: admin
+    username: root
+
+#port Number
+server:
+  port: 8082
+
+#Eureka-Server-Port--> 8761 where eureks server is running
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+#commant all the properties accept service-name, because all the properies are comming from the config-server.
+
+#properties form config-server.
+
+#SO this is the property we need to set that look for the config-server using service-discovery, in our case eureka
+#  cloud:
+#    config:
+#      discovery:
+#        enabled: true
+#        service-id: config-server #look for the config-server.
+##      uri: http://localhost:8888 # this will used when you are not using Eureka as a discovery client. and above two properties using when your as using eureka as a discovery-clinet.
+#      profile: dev
+#
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: refresh
+
+#At the end you have to change the file name of you application.yml to bootstrap.yml in the address-service.
+#you have to change every properties file name where ever you are usign config-clinet and bootstrap dependency
+
